@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Report Donation — Replate</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header small">
+    <div class="container header-inner">
+      <div class="brand"><img src="assets/logo.png" class="logo"><span>Replate</span></div>
+      <div class="header-actions">
+        <button id="themeToggleDonate" class="btn-icon">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container form-page">
+    <div class="form-card card">
+      <h2>Replate Donation Form</h2>
+      <form id="donationForm">
+        <div class="form-row">
+          <label>Organization / Mess Name</label>
+          <input type="text" id="orgName" placeholder="University Mess A" required>
+        </div>
+
+        <div class="form-row two">
+          <div>
+            <label>Food Type</label>
+            <input type="text" id="foodType" placeholder="Rice, Curry, Chapati">
+          </div>
+          <div>
+            <label>Quantity (plates / kg)</label>
+            <input type="text" id="quantity" placeholder="e.g., 50 plates">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Pickup Time</label>
+          <input type="datetime-local" id="pickupTime">
+        </div>
+
+        <div class="form-row">
+          <label>Pickup Location (Address)</label>
+          <input type="text" id="location" placeholder="Mess Block A, LPU">
+        </div>
+
+        <div class="form-row">
+          <label>Notes (optional)</label>
+          <textarea id="notes" placeholder="Any additional instructions"></textarea>
+        </div>
+
+        <div class="form-row actions">
+          <button type="submit" class="btn primary">Submit Donation</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script>
+    const donationForm = document.getElementById('donationForm');
+    donationForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        org: document.getElementById('orgName').value,
+        food: document.getElementById('foodType').value,
+        qty: document.getElementById('quantity').value,
+        pickup: document.getElementById('pickupTime').value,
+        location: document.getElementById('location').value,
+        notes: document.getElementById('notes').value
+      };
+      // temporary demo: POST to backend /report (Flask)
+      try {
+        const res = await fetch('http://127.0.0.1:5000/report', {
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        alert(data.message || 'Donation submitted (demo)');
+        donationForm.reset();
+      } catch(err) {
+        console.log(err);
+        alert('Unable to submit — backend not running. Data saved locally for demo.');
+        localStorage.setItem('lastDonation', JSON.stringify(payload));
+        donationForm.reset();
+      }
+    });
+  </script>
+</body>
+</html>

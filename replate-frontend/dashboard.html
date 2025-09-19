@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Replate Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="site-header small">
+    <div class="container header-inner">
+      <div class="brand"><img src="assets/logo.png" class="logo"><span>Replate</span></div>
+      <div class="header-actions">
+        <button id="themeToggleTop" class="btn-icon">🌙</button>
+        <a class="btn primary" href="donate.html">Report Food Waste</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container dashboard">
+    <aside class="sidebar">
+      <ul>
+        <li class="active"><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="donate.html">Donations</a></li>
+        <li><a href="feedback.html">Reports</a></li>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </aside>
+
+    <section class="dashboard-main">
+      <div class="cards-row">
+        <div class="stat card">
+          <h4>Total Food Donated</h4>
+          <div class="stat-value" id="statTotal">12,500 kg</div>
+          <small>+5% from last month</small>
+        </div>
+        <div class="stat card">
+          <h4>Active Volunteers</h4>
+          <div class="stat-value">350</div>
+          <small>+10% from last month</small>
+        </div>
+        <div class="stat card">
+          <h4>Waste Reduced</h4>
+          <div class="stat-value">20%</div>
+          <small>-2% from last month</small>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="card chart-card">
+          <h3>Food Donation Trends</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+
+        <div class="card small-card">
+          <h3>Leaderboard</h3>
+          <ol class="leaderboard">
+            <li>University Mess A — 1,200 kg</li>
+            <li>Restaurant B — 900 kg</li>
+            <li>University Mess C — 700 kg</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Recent Donations</h3>
+        <table class="table" id="recentTable">
+          <thead><tr><th>Date</th><th>Donor</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>2025-09-19</td><td>University Mess A</td><td>500 kg</td><td class="tag done">Completed</td></tr>
+            <tr><td>2025-09-18</td><td>Restaurant B</td><td>300 kg</td><td class="tag pending">Pending</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script>
+    // demo chart
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets: [{ label:'Donations (kg)', data:[2000,2500,1800,3000,2800,3200], borderWidth:2, tension:0.3, borderColor:'#ff8a00', backgroundColor:'rgba(255,138,0,0.08)'}]
+      },
+      options:{ plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true } } }
+    });
+  </script>
+</body>
+</html>
